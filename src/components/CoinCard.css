@@ -1,0 +1,24 @@
+.coin-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+  }
+  
+  .coin-card:hover {
+    transform: translateY(-4px);
+  }
+  
+  .coin-card .top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .coin-card img {
+    width: 40px;
+    height: 40px;
+  }
+  

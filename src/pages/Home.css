@@ -1,0 +1,9 @@
+.home-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 2rem;
+    background: #fdfdfd;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  }
+  
