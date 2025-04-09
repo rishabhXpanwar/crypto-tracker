@@ -7,6 +7,11 @@ import './Home.css';
 function Home() {
   const [coins, setCoins] = useState([]);
   const [filteredCoins, setFilteredCoins] = useState([]);
+  const [watchlist, setWatchlist] = useState(() => {
+    const saved = localStorage.getItem('watchlist');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [showWatchlist, setShowWatchlist] = useState(false);
 
   const fetchCoins = async () => {
     try {
@@ -35,11 +40,34 @@ function Home() {
     setFilteredCoins(results);
   };
 
+  const toggleWatchlist = (coinId) => {
+    let updated;
+    if (watchlist.includes(coinId)) {
+      updated = watchlist.filter(id => id !== coinId);
+    } else {
+      updated = [...watchlist, coinId];
+    }
+    setWatchlist(updated);
+    localStorage.setItem('watchlist', JSON.stringify(updated));
+  };
+
+  const coinsToDisplay = showWatchlist
+    ? coins.filter(coin => watchlist.includes(coin.id))
+    : filteredCoins;
+
   return (
     <div className="home-container">
       <Header />
+      <div className="toggle-buttons">
+        <button onClick={() => setShowWatchlist(false)}>All Coins</button>
+        <button onClick={() => setShowWatchlist(true)}>Watchlist</button>
+      </div>
       <SearchBar onSearch={handleSearch} />
-      <CoinList coins={filteredCoins} />
+      <CoinList 
+        coins={coinsToDisplay} 
+        watchlist={watchlist} 
+        toggleWatchlist={toggleWatchlist} 
+      />
     </div>
   );
 }
