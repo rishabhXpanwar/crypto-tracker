@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import CoinList from '../components/CoinList';
+import SortButtons from '../components/SortButtons'; // ✅ make sure this exists
 import './Home.css';
 
-function Home() {
+function Home({ currentPage, setPage }) {
   const [coins, setCoins] = useState([]);
   const [filteredCoins, setFilteredCoins] = useState([]);
   const [watchlist, setWatchlist] = useState(() => {
@@ -57,16 +58,34 @@ function Home() {
 
   return (
     <div className="home-container">
-      <Header />
+      <Header currentPage={currentPage} setPage={setPage} />
+
       <div className="toggle-buttons">
-        <button onClick={() => setShowWatchlist(false)}>All Coins</button>
-        <button onClick={() => setShowWatchlist(true)}>Watchlist</button>
+        <button
+          className={!showWatchlist ? 'active' : ''}
+          onClick={() => setShowWatchlist(false)}
+        >
+          All Coins
+        </button>
+        <button
+          className={showWatchlist ? 'active' : ''}
+          onClick={() => setShowWatchlist(true)}
+        >
+          Watchlist ⭐
+        </button>
       </div>
+
       <SearchBar onSearch={handleSearch} />
-      <CoinList 
-        coins={coinsToDisplay} 
-        watchlist={watchlist} 
-        toggleWatchlist={toggleWatchlist} 
+
+      {/* ✅ Only show sorting when not viewing watchlist */}
+      {!showWatchlist && (
+        <SortButtons coins={filteredCoins} setCoins={setFilteredCoins} />
+      )}
+
+      <CoinList
+        coins={coinsToDisplay}
+        watchlist={watchlist}
+        toggleWatchlist={toggleWatchlist}
       />
     </div>
   );
